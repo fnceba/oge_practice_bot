@@ -3,7 +3,7 @@ version: "3.8"
 services:
   db:
     image: postgres:12
-    container_name: dtb_postgres
+    container_name: oge_practice_postgres
     restart: always
     volumes:
       - postgres_data:/var/lib/postgresql/data/
@@ -16,10 +16,10 @@ services:
       - "5433:5432"
   redis:
     image: redis:alpine
-    container_name: dtb_redis
+    container_name: oge_practice_redis
   web:
     build: .
-    container_name: dtb_django
+    container_name: oge_practice_django
     command: bash -c "python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
     volumes:
       - .:/code
@@ -31,7 +31,7 @@ services:
       - db
   bot:
     build: .
-    container_name: dtb_bot
+    container_name: oge_practice_bot
     command: python run_pooling.py
     env_file:
       - ./.env
@@ -39,8 +39,8 @@ services:
       - web
   celery:
     build: .
-    container_name: dtb_celery
-    command: celery -A dtb worker --loglevel=INFO
+    container_name: oge_practice_celery
+    command: celery -A oge_practice worker --loglevel=INFO
     volumes:
       - .:/code
     env_file:
@@ -50,8 +50,8 @@ services:
       - web
   celery-beat:
     build: .
-    container_name: dtb_beat
-    command: celery -A dtb beat -l info --scheduler django_celery_beat.schedulers.DatabaseScheduler
+    container_name: oge_practice_beat
+    command: celery -A oge_practice beat -l info --scheduler django_celery_beat.schedulers.DatabaseScheduler
     volumes:
       - .:/code
     env_file:
