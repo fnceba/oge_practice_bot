@@ -18,7 +18,7 @@ from django.contrib import admin
 from django.urls import path, include
 
 urlpatterns = [
-    path('tgadmin/', admin.site.urls),
-    path('', include('tgbot.urls')),
+    path("", admin.site.urls),
+    #path('', include('tgbot.urls')),
     path('__debug__/', include(debug_toolbar.urls)),
 ]
